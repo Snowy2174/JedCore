@@ -332,7 +332,7 @@ public class JedCoreConfig {
 		config.addDefault("Abilities.Earth.EarthLine.Range", 30);
 		config.addDefault("Abilities.Earth.EarthLine.PrepareRange", 3);
 		config.addDefault("Abilities.Earth.EarthLine.SourceKeepRange", 7);
-		config.addDefault("Abilities.Earth.EarthLine.AffectingRadius", 2);
+		config.addDefault("Abilities.Earth.EarthLine.AffectingRadius", 2.0);
 		config.addDefault("Abilities.Earth.EarthLine.AllowChangeDirection", true);
 		config.addDefault("Abilities.Earth.EarthLine.MaxDuration", 2500);
 		config.addDefault("Abilities.Earth.EarthLine.Damage", 3.0);
