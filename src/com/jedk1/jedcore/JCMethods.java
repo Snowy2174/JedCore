@@ -2,7 +2,6 @@ package com.jedk1.jedcore;
 
 import java.util.*;
 
-import com.jedk1.jedcore.ability.waterbending.passive.IcePassive;
 import com.jedk1.jedcore.util.*;
 import com.projectkorra.projectkorra.ability.ElementalAbility;
 import com.projectkorra.projectkorra.ability.WaterAbility;

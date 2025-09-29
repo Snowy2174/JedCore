@@ -1003,6 +1003,9 @@ public class JedCoreConfig {
 		config.addDefault("Abilities.Water.Ice.Passive.Skate.Enabled", true);
 		config.addDefault("Abilities.Water.Ice.Passive.Skate.SpeedFactor", 4);
 		config.addDefault("Abilities.Water.Ice.Passive.Skate.LeaveIceDuration", 60);
+		config.addDefault("Abilities.Water.Ice.Passive.Skate.Particles", true);
+		config.addDefault("Abilities.Water.Ice.Passive.Skate.Enabled", "IceSkate is a passive ability which"
+				+ " allows icebenders to skate, running faster whilst sprinting on ice."); // Please review this description
 		
 		config.addDefault("Abilities.Chi.Backstab.Enabled", true);
 		config.addDefault("Abilities.Chi.Backstab.Description", "Strike your foe in the back with a hard jab, temporariliy blocking their Chi, and "
