@@ -417,6 +417,7 @@ public class JedCoreConfig {
 		config.addDefault("Abilities.Earth.LavaDisc.Particles", 3);
 		config.addDefault("Abilities.Earth.LavaDisc.ContinueAfterEntityHit", false);
 		config.addDefault("Abilities.Earth.LavaDisc.RecallLimit", 3);
+		config.addDefault("Abilities.Earth.LavaDisc.MaxHitsPerEntity", 2);
 		config.addDefault("Abilities.Earth.LavaDisc.Destroy.RegenTime", 5000);
 		config.addDefault("Abilities.Earth.LavaDisc.Destroy.BlockDamage", true);
 		config.addDefault("Abilities.Earth.LavaDisc.Destroy.AdditionalMeltableBlocks", meltable);

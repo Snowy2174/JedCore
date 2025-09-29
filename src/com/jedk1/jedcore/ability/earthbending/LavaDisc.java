@@ -26,7 +26,6 @@ import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
-import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Levelled;
 import org.bukkit.configuration.ConfigurationSection;
@@ -38,6 +37,7 @@ import org.bukkit.util.Vector;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class LavaDisc extends LavaAbility implements AddonAbility {
 
@@ -53,12 +53,14 @@ public class LavaDisc extends LavaAbility implements AddonAbility {
 	@Attribute(Attribute.DURATION)
 	private long duration;
 	private int recallLimit;
+	private int maxEntityHits;
 	private boolean trailFlow;
 
 	private CompositeRemovalPolicy removalPolicy;
 	private DiscRenderer discRenderer;
 	private State state;
 	private final Set<Block> trailBlocks = new HashSet<>();
+	private static final ConcurrentHashMap<Entity, Integer> playerHitCounts = new ConcurrentHashMap<>();
 
 	public LavaDisc(Player player) {
 		super(player);
@@ -77,6 +79,7 @@ public class LavaDisc extends LavaAbility implements AddonAbility {
 		state = new HoldState();
 		time = System.currentTimeMillis();
 		discRenderer = new DiscRenderer(this.player);
+		playerHitCounts.clear();
 
 		setFields();
 
@@ -92,6 +95,7 @@ public class LavaDisc extends LavaAbility implements AddonAbility {
 		cooldown = config.getLong("Abilities.Earth.LavaDisc.Cooldown");
 		duration = config.getLong("Abilities.Earth.LavaDisc.Duration");
 		recallLimit = config.getInt("Abilities.Earth.LavaDisc.RecallLimit") - 1;
+		maxEntityHits = config.getInt("Abilities.Earth.LavaDisc.MaxHitsPerEntity");
 		trailFlow = config.getBoolean("Abilities.Earth.LavaDisc.Destroy.TrailFlow");
 
 		this.removalPolicy = new CompositeRemovalPolicy(this,
@@ -185,6 +189,11 @@ public class LavaDisc extends LavaAbility implements AddonAbility {
 	}
 
 	private void doDamage(Entity entity) {
+		int hitCount = playerHitCounts.getOrDefault(entity, 0);
+		if (hitCount >= maxEntityHits) {
+			return;
+		}
+		playerHitCounts.put(entity, hitCount + 1);
 		DamageHandler.damageEntity(entity, damage, this);
 		entity.setFireTicks(20);
 		new FireDamageTimer(entity, player, this);
@@ -354,7 +363,8 @@ public class LavaDisc extends LavaAbility implements AddonAbility {
 	}
 
 	private abstract class TravelState implements State {
-		private final boolean passHit;
+		protected final boolean passHit;
+		protected final Set<Entity> hitEntities = new HashSet<>();
 
 		protected Vector direction;
 		protected boolean hasHit;
@@ -376,7 +386,8 @@ public class LavaDisc extends LavaAbility implements AddonAbility {
 				location = location.add(direction.clone().multiply(0.15));
 
 				for (Entity entity : GeneralMethods.getEntitiesAroundPoint(location, 2.0D)) {
-					if (entity instanceof LivingEntity && entity.getEntityId() != player.getEntityId()) {
+					if (entity instanceof LivingEntity && entity.getEntityId() != player.getEntityId() && !hitEntities.contains(entity)) {
+						hitEntities.add(entity);
 						doDamage(entity);
 						if (!passHit) {
 							hasHit = true;
@@ -416,7 +427,7 @@ public class LavaDisc extends LavaAbility implements AddonAbility {
 			move();
 			discRenderer.render(location, true);
 
-			if (hasHit) {
+			if (hasHit && !passHit) {
 				state = new CleanupState();
 			}
 		}
@@ -453,6 +464,10 @@ public class LavaDisc extends LavaAbility implements AddonAbility {
 
 			move();
 			discRenderer.render(location, true);
+
+			if (hasHit && !passHit) {
+				state = new CleanupState();
+			}
 
 			double distanceAway = location.distance(loc);
 			if (distanceAway < 0.5) {
