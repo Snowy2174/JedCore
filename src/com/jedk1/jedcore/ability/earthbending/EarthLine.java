@@ -52,7 +52,7 @@ public class EarthLine extends EarthAbility implements AddonAbility {
 	@Attribute(Attribute.SELECT_RANGE)
 	private double prepareRange;
 	@Attribute(Attribute.RADIUS)
-	private int affectingRadius;
+	private double affectingRadius;
 	@Attribute(Attribute.DAMAGE)
 	private double damage;
 
@@ -93,7 +93,7 @@ public class EarthLine extends EarthAbility implements AddonAbility {
 		range = config.getInt("Abilities.Earth.EarthLine.Range");
 		prepareRange = config.getDouble("Abilities.Earth.EarthLine.PrepareRange");
 		sourceKeepRange = config.getDouble("Abilities.Earth.EarthLine.SourceKeepRange");
-		affectingRadius = config.getInt("Abilities.Earth.EarthLine.AffectingRadius");
+		affectingRadius = config.getDouble("Abilities.Earth.EarthLine.AffectingRadius");
 		damage = config.getDouble("Abilities.Earth.EarthLine.Damage");
 		allowChangeDirection = config.getBoolean("Abilities.Earth.EarthLine.AllowChangeDirection");
 		maxDuration = config.getLong("Abilities.Earth.EarthLine.MaxDuration");
@@ -276,7 +276,7 @@ public class EarthLine extends EarthAbility implements AddonAbility {
 					return;
 				}
 			} else {
-				for (Entity entity : GeneralMethods.getEntitiesAroundPoint(location, affectingRadius)) {
+				for (Entity entity : GeneralMethods.getEntitiesAroundPoint(location.clone().add(0, 0.5, 0), affectingRadius)) {
 					if (RegionProtection.isRegionProtected(this, entity.getLocation()) || ((entity instanceof Player) && Commands.invincible.contains(entity.getName()))) {
 						return;
 					}
@@ -456,11 +456,11 @@ public class EarthLine extends EarthAbility implements AddonAbility {
 		this.sourceKeepRange = sourceKeepRange;
 	}
 
-	public int getAffectingRadius() {
+	public double getAffectingRadius() {
 		return affectingRadius;
 	}
 
-	public void setAffectingRadius(int affectingRadius) {
+	public void setAffectingRadius(double affectingRadius) {
 		this.affectingRadius = affectingRadius;
 	}
 
