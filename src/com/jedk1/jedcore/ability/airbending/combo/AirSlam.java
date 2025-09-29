@@ -33,6 +33,7 @@ public class AirSlam extends AirAbility implements AddonAbility, ComboAbility {
 	private int range;
 	@Attribute(Attribute.DAMAGE)
 	private double damage;
+	private boolean canUseUnderwater;
 
 	private LivingEntity target;
 	private ArrayList<Entity> affectedEntities;
@@ -45,6 +46,10 @@ public class AirSlam extends AirAbility implements AddonAbility, ComboAbility {
 		}
 		
 		setFields();
+
+		if (!canUseUnderwater && player.getEyeLocation().getBlock().isLiquid()) {
+			return;
+		}
 
 		Entity targetEntity = GeneralMethods.getTargetedEntity(player, range, new ArrayList<>());
 		if (!(targetEntity instanceof LivingEntity)
@@ -70,6 +75,7 @@ public class AirSlam extends AirAbility implements AddonAbility, ComboAbility {
 		power = config.getDouble("Abilities.Air.AirCombo.AirSlam.Power");
 		range = config.getInt("Abilities.Air.AirCombo.AirSlam.Range");
 		damage = config.getDouble("Abilities.Air.AirCombo.AirSlam.Damage");
+		canUseUnderwater = config.getBoolean("Abilities.Air.AirCombo.AirSlam.CanUseUnderwater");
 	}
 
 	@Override
