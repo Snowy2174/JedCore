@@ -197,7 +197,9 @@ public class WaterFlow extends WaterAbility implements AddonAbility, ComboAbilit
 	private boolean prepare() {
 		sourceBlock = BlockSource.getWaterSourceBlock(player, sourceRange, ClickType.SHIFT_DOWN, true, bPlayer.canIcebend(), canUsePlants);
 		if (sourceBlock != null) {
-			boolean isGoodSource = !requireAdjacentSources || GeneralMethods.isAdjacentToThreeOrMoreSources(sourceBlock, false) || (TempBlock.isTempBlock(sourceBlock) && WaterAbility.isBendableWaterTempBlock(sourceBlock));
+			boolean isGoodSource = !requireAdjacentSources || GeneralMethods.isAdjacentToThreeOrMoreSources(sourceBlock, false)
+					|| JCMethods.isAdjacentToThreeOrMoreSources(sourceBlock, sourceBlock.getType()) // Addition of a fallback check as PK core doesn't handle snow correctly, nor respect config options for this ability
+					|| (TempBlock.isTempBlock(sourceBlock) && WaterAbility.isBendableWaterTempBlock(sourceBlock));
 
 			// canUsePlants needs to be checked here due to a bug with PK dynamic source caching.
 			// getWaterSourceBlock can return a plant even if canUsePlants is passed as false.
@@ -253,13 +255,11 @@ public class WaterFlow extends WaterAbility implements AddonAbility, ComboAbilit
 			remove();
 			return;
 		}
-		if (prevHealth > player.getHealth()) {
-			remove();
-			return;
-		}
-
 		if (removeOnAnyDamage) {
-			// Only update the previous health if any damage should remove it.
+			if (prevHealth > player.getHealth()) {
+				remove();
+				return;
+			}
 			prevHealth = player.getHealth();
 		}
 
