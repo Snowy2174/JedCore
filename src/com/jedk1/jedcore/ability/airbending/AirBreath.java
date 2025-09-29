@@ -34,6 +34,7 @@ public class AirBreath extends AirAbility implements AddonAbility {
 	private boolean avatarAmplify;
 	private int avatarRange;
 	private double avatarKnockback;
+	private boolean canStartUnderwater;
 
     @Attribute(Attribute.COOLDOWN)
 	private long cooldown;
@@ -55,6 +56,10 @@ public class AirBreath extends AirAbility implements AddonAbility {
 		}
 
 		setFields();
+
+		if (player.getEyeLocation().getBlock().isLiquid() && !this.canStartUnderwater) {
+			return;
+		}
 
 		if (bPlayer.isAvatarState() && avatarAmplify) {
 			range = avatarRange;
@@ -82,6 +87,7 @@ public class AirBreath extends AirAbility implements AddonAbility {
 		avatarAmplify = config.getBoolean("Abilities.Air.AirBreath.Avatar.Enabled");
 		avatarRange = config.getInt("Abilities.Air.AirBreath.Avatar.Range");
 		avatarKnockback = config.getDouble("Abilities.Air.AirBreath.Avatar.Knockback");
+		canStartUnderwater = config.getBoolean("Abilities.Air.AirBreath.CanStartUnderwater");
 	}
 
 	@Override

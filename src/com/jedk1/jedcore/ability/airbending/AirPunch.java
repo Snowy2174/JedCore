@@ -39,6 +39,7 @@ public class AirPunch extends AirAbility implements AddonAbility {
 	private double entityCollisionRadius;
 	@Attribute("Speed")
 	private double speed;
+	private boolean canUseUnderwater;
 
 	public AirPunch(Player player) {
 		super(player);
@@ -70,6 +71,7 @@ public class AirPunch extends AirAbility implements AddonAbility {
 		damage = config.getDouble("Abilities.Air.AirPunch.Damage");
 		entityCollisionRadius = config.getDouble("Abilities.Air.AirPunch.EntityCollisionRadius");
 		speed = config.getDouble("Abilities.Air.AirPunch.Speed");
+		canUseUnderwater = config.getBoolean("Abilities.Air.AirPunch.CanUseUnderwater");
 	}
 
 	@Override
@@ -161,7 +163,7 @@ public class AirPunch extends AirAbility implements AddonAbility {
 	}
 
 	private boolean isPathBlocked(Location location) {
-		return GeneralMethods.isSolid(location.getBlock()) || isWater(location.getBlock()) || RegionProtection.isRegionProtected(player, location, this);
+		return GeneralMethods.isSolid(location.getBlock()) || (canUseUnderwater && isWater(location.getBlock())) || RegionProtection.isRegionProtected(player, location, this);
 	}
 
 	private void applyShotEffects(Location location) {

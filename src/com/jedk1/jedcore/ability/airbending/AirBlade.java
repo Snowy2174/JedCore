@@ -31,6 +31,7 @@ public class AirBlade extends AirAbility implements AddonAbility {
 	private Location location;
 	private Vector direction;
 	private double travelled;
+	private boolean canUseUnderwater;
 	private boolean blockCuttingEnabled;
 	private boolean revertCutBlocks;
 	private long revertTime;
@@ -61,6 +62,10 @@ public class AirBlade extends AirAbility implements AddonAbility {
 		this.location = player.getEyeLocation().clone();
 		this.direction = player.getEyeLocation().getDirection().clone();
 
+		if (this.location.getBlock().isLiquid() && !this.canUseUnderwater) {
+			return;
+		}
+
 		start();
 		if (!isRemoved())
 			bPlayer.addCooldown(this);
@@ -75,6 +80,7 @@ public class AirBlade extends AirAbility implements AddonAbility {
 		entityCollisionRadius = config.getDouble("Abilities.Air.AirBlade.EntityCollisionRadius");
 		speed = config.getDouble("Abilities.Air.AirBlade.Speed");
 		knockback = config.getDouble("Abilities.Air.AirBlade.Knockback");
+		canUseUnderwater = config.getBoolean("Abilities.Air.AirBlade.CanUseUnderwater");
 
 		ConfigurationSection cuttingConfig = config.getConfigurationSection("Abilities.Air.AirBlade.BlockCutting");
 
@@ -138,6 +144,7 @@ public class AirBlade extends AirAbility implements AddonAbility {
 
 		if (travelled >= range ||
 				!isTransparent(location.getBlock()) ||
+				!this.canUseUnderwater && location.getBlock().isLiquid() ||
 				RegionProtection.isRegionProtected(player, player.getLocation(), this)) {
 			remove();
 			return false;
