@@ -123,7 +123,7 @@ public class LavaDisc extends LavaAbility implements AddonAbility {
 			Block earthSource = getEarthSourceBlock(sourceRange);
 			if (earthSource != null && !lavaOnly && !EarthAbility.getMovedEarth().containsKey(earthSource)) {
 				new RegenTempBlock(earthSource, Material.LAVA, Material.LAVA.createBlockData(bd -> ((Levelled)bd).setLevel(4)), sourceRegen);
-			return true;
+				return true;
 			}
 		}
 

@@ -6,7 +6,6 @@ import com.jedk1.jedcore.util.MaterialUtil;
 import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.AddonAbility;
 import com.projectkorra.projectkorra.ability.ComboAbility;
-import com.projectkorra.projectkorra.ability.EarthAbility;
 import com.projectkorra.projectkorra.ability.ElementalAbility;
 import com.projectkorra.projectkorra.ability.LavaAbility;
 import com.projectkorra.projectkorra.ability.util.ComboManager.AbilityInformation;
@@ -342,10 +341,6 @@ public class MagmaBlast extends LavaAbility implements AddonAbility, ComboAbilit
 		TempBlock closest = null;
 
 		for (TempBlock tempBlock : blocks) {
-			Block block = tempBlock.getLocation().getBlock();
-			if (EarthAbility.getMovedEarth().containsKey(block)) {
-				continue;
-			}
 			double currentDistSq = tempBlock.getLocation().distanceSquared(target);
 
 			if (currentDistSq < distanceSq) {

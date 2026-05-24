@@ -78,7 +78,7 @@ public class EarthSurf extends EarthAbility implements AddonAbility {
 		Block beneath = getBlockBeneath(player.getLocation().clone());
 		double maxHeight = getMaxHeight();
 
-		return isEarthbendable(player, beneath) && !isMetal(beneath) && beneath.getLocation().distanceSquared(player.getLocation()) <= maxHeight * maxHeight && !EarthAbility.getMovedEarth().containsKey(beneath);
+		return isEarthbendable(player, beneath) && !isMetal(beneath) && beneath.getLocation().distanceSquared(player.getLocation()) <= maxHeight * maxHeight;
 	}
 
 	public void setFields() {
@@ -204,8 +204,7 @@ public class EarthSurf extends EarthAbility implements AddonAbility {
 				loc.add(0, 0.1, 0);
 			}
 
-			Block beneath = getBlockBeneath(loc.clone().add(0, -2.9, 0).toVector().add(location.clone().getDirection().multiply(distOffset)).toLocation(player.getWorld()));
-			if (isEarthbendable(player, beneath) && beneath != null && !EarthAbility.getMovedEarth().containsKey(beneath)) {
+			if (isEarthbendable(player, getBlockBeneath(loc.clone().add(0, -2.9, 0).toVector().add(location.clone().getDirection().multiply(distOffset)).toLocation(player.getWorld()))) && getBlockBeneath(bL) != null) {
 				Block block = loc.clone().add(0, -3.9, 0).toVector().add(location.clone().getDirection().multiply(distOffset - 0.5)).toLocation(player.getWorld()).getBlock();
 				Location temp = loc.clone().add(0, -2.9, 0).toVector().add(location.clone().getDirection().multiply(distOffset)).toLocation(player.getWorld());
 
