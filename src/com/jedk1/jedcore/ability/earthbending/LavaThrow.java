@@ -6,7 +6,6 @@ import com.jedk1.jedcore.util.RegenTempBlock;
 import com.projectkorra.projectkorra.GeneralMethods;
 import com.projectkorra.projectkorra.ability.AddonAbility;
 import com.projectkorra.projectkorra.ability.LavaAbility;
-import com.projectkorra.projectkorra.ability.EarthAbility;
 import com.projectkorra.projectkorra.attribute.Attribute;
 import com.projectkorra.projectkorra.command.Commands;
 import com.projectkorra.projectkorra.region.RegionProtection;
@@ -120,7 +119,7 @@ public class LavaThrow extends LavaAbility implements AddonAbility {
 	private boolean prepare() {
 		Block targetBlock = getTargetLavaBlock(sourceRange);
 
-		if (targetBlock != null && !TempBlock.isTempBlock(targetBlock) && !EarthAbility.getMovedEarth().containsKey(targetBlock)) {
+		if (targetBlock != null && !TempBlock.isTempBlock(targetBlock)) {
 			selectedSource = targetBlock;
 			return true;
 		}

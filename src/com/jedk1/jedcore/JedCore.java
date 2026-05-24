@@ -60,8 +60,6 @@ public class JedCore extends JavaPlugin {
 		PotionEffectAdapterFactory potionEffectAdapterFactory = new PotionEffectAdapterFactory();
 		potionEffectAdapter = potionEffectAdapterFactory.getAdapter();
 
-		checkMaintainer();
-
 		new BukkitRunnable() {
 			@Override
 			public void run() {
@@ -77,12 +75,6 @@ public class JedCore extends JavaPlugin {
 	    } catch (IOException e) {
 	        log.info("Failed to submit statistics for MetricsLite.");
 	    }
-	}
-
-	public static void checkMaintainer() {
-		if (!dev.contains("Cozmyc (Maintainer)")) {
-			dev = dev  + ", Cozmyc (Maintainer)";
-		}
 	}
 
 	public void initializeCollisions() {

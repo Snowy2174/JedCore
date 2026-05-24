@@ -26,7 +26,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Crevice extends EarthAbility implements AddonAbility, ComboAbility {
@@ -245,7 +244,7 @@ public class Crevice extends EarthAbility implements AddonAbility, ComboAbility 
 			if (i == 0 && !isTransparent(tempLoc.getBlock())) {
 				continue;
 			}
-			if (i > 0 && (!isEarthbendable(tempLoc.getBlock()) || EarthAbility.getMovedEarth().containsKey(tempLoc.getBlock()))) {
+			if (i > 0 && !isEarthbendable(tempLoc.getBlock())) {
 				continue;
 			}
 

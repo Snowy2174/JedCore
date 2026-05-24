@@ -66,7 +66,7 @@ public class EarthPillar extends EarthAbility implements AddonAbility {
 
 	public void setFields() {
 		ConfigurationSection config = JedCoreConfig.getConfig(this.player);
-
+		
 		height = config.getInt("Abilities.Earth.EarthPillar.Height");
 		range = config.getInt("Abilities.Earth.EarthPillar.Range");
 	}
@@ -91,20 +91,20 @@ public class EarthPillar extends EarthAbility implements AddonAbility {
 
 	private Vector getDirection(BlockFace face) {
 		switch (face) {
-			case UP:
-				return new Vector(0, 1, 0);
-			case DOWN:
-				return new Vector(0, -1, 0);
-			case NORTH:
-				return new Vector(0, 0, -1);
-			case SOUTH:
-				return new Vector(0, 0, 1);
-			case EAST:
-				return new Vector(1, 0, 0);
-			case WEST:
-				return new Vector(-1, 0, 0);
-			default:
-				return null;
+		case UP:
+			return new Vector(0, 1, 0);
+		case DOWN:
+			return new Vector(0, -1, 0);
+		case NORTH:
+			return new Vector(0, 0, -1);
+		case SOUTH:
+			return new Vector(0, 0, 1);
+		case EAST:
+			return new Vector(1, 0, 0);
+		case WEST:
+			return new Vector(-1, 0, 0);
+		default:
+			return null;
 		}
 	}
 
@@ -115,7 +115,7 @@ public class EarthPillar extends EarthAbility implements AddonAbility {
 			}
 		}
 	}
-
+	
 	@Override
 	public long getCooldown() {
 		return 0;
